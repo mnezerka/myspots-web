@@ -1,12 +1,10 @@
-import positionStore from "./stores/position"
-import spots from "./stores/spots"
-import spot from "./stores/spot"
+import position from "../stores/position"
+import spots from "../stores/spots"
+import app from "../app"
 
 //////////////////////////////////////////////// MapContextMenu
 
 function MapContextMenu(args) {
-    console.log("MapContextMenu:constructor:enter")
-
     this.el = document.getElementById("map-context-menu");
     this.el.style.display = "none";
 
@@ -17,8 +15,6 @@ function MapContextMenu(args) {
             this.hide();
         }
     }
-
-    console.log("MapContextMenu:constructor:leave")
 }
 
 MapContextMenu.prototype.show = function() {
@@ -37,9 +33,7 @@ MapContextMenu.prototype.setPosFromEvent = function(e) {
 //////////////////////////////////////////////// Map
 
 function Map(args) {
-    console.log("Map:constructor:enter");
-
-    positionStore.registerObserver(this.onUpdatePosition.bind(this));
+    position.registerObserver(this.onUpdatePosition.bind(this));
 
     spots.registerObserver(this.onUpdateSpots.bind(this));
 
@@ -140,13 +134,11 @@ function Map(args) {
     });
     
     this.ctrlCenter = new L.Control.Center({position: 'topright'}).addTo(this.map); 
-
-    console.log("Map:constructor:leave")
 }
 
 Map.prototype.onMapClick = function(e) {
-    console.log("click in map", e);
-    positionStore.setPos(e.latlng);
+    //console.log("click in map", e);
+    app.setPosition([e.latlng.lat, e.latlng.lng])
 }
 
 Map.prototype.onMapContextMenu = function(e) {
@@ -157,8 +149,8 @@ Map.prototype.onMapContextMenu = function(e) {
 }
  
 Map.prototype.onMarkerClick = function(e) {
-    spot.setSpot(e.target.spot) 
-}  
+    app.setActiveSpot(e.target.spot)
+}
 
 Map.prototype.localize = function() {
     console.log("Map:localize:enter");
@@ -177,7 +169,7 @@ Map.prototype.onLocalized = function(position) {
 
     const p = new L.LatLng(position.coords.latitude, position.coords.longitude);
 
-    positionStore.setPos(p);
+    position.setPos(p);
     this.map.panTo(p);
 
     console.log("Map:onLocalized:leave")
@@ -186,16 +178,14 @@ Map.prototype.onLocalized = function(position) {
 Map.prototype.center = function() {
     console.log("Map:center:enter");
 
-    if (positionStore.getPos()) {
-        this.map.panTo(positionStore.getPos());
+    if (position.getPos()) {
+        this.map.panTo(position.getPos());
     }
 
     console.log("Map:center:leave");
 }
 
 Map.prototype.fit = function() {
-    console.log("Map:fit:enter");
-
     points = [];
 
     for (var key in this.markers) {
@@ -207,21 +197,20 @@ Map.prototype.fit = function() {
     if (points.length > 0) {
         this.map.fitBounds(points);
     }
-
-    console.log("Map:fit:leave");
 }
 
 // called when global actual position was changed
-Map.prototype.onUpdatePosition = function(store) {
-    console.log("Map:onUpdatePosition:enter", store.pos );
+Map.prototype.onUpdatePosition = function() {
+    let p = position.getPos()
+    console.log("Map:onUpdatePosition:enter", p);
     
     // if we have position
-    if (store.pos) {
+    if (p) {
         // if marker is already created => move it to new pos
         if (this.posMarker) {
-            this.posMarker.setLatLng(store.pos)
+            this.posMarker.setLatLng(p)
         } else {
-            this.posMarker = L.marker(store.pos).addTo(this.map) 
+            this.posMarker = L.marker(p).addTo(this.map) 
         }
     } else {
         // remove marker from map if exists
@@ -234,9 +223,7 @@ Map.prototype.onUpdatePosition = function(store) {
     console.log("Map:onUpdatePosition:leave");
 }
 
-Map.prototype.onUpdateSpots = function(spots) {
-    console.log("Map:onUpdateSlots:enter");
-    
+Map.prototype.onUpdateSpots = function() {
     if (spots.getSpots()) {
         for (let i = 0; i < spots.getSpots().length; i++) {
             const s = spots.getSpots()[i];
@@ -248,7 +235,7 @@ Map.prototype.onUpdateSpots = function(spots) {
                 icon: this.icons.parking
             }
 
-            const p = new L.LatLng(s.coordinates[0], s.coordinates[1]);
+            const p = new L.LatLng(s.pos[0], s.pos[1]);
             var m = L.marker(p, markerOptions)
                 .addTo(this.map)
                 .on('click', this.onMarkerClick.bind(this));
@@ -259,8 +246,6 @@ Map.prototype.onUpdateSpots = function(spots) {
 
         this.fit();
     }
-
-    console.log("Map:onUpdateSlots:leave")
 }
 
 export default Map;

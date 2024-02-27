@@ -13,10 +13,41 @@ SpotStore.prototype.getSpot= function() {
     return this.spot;
 }
 
+SpotStore.prototype.isNew = function() {
+    return this.spot && !this.spot.id
+}
+
+SpotStore.prototype.isDirty = function() {
+    return this.spot && this.spot.dirty
+}
+
 SpotStore.prototype.setSpot = function(spot) {
-    if (spot != this.spot) {
-        this.spot = spot;
-        this.notifyAll()
+    //console.log(`SpotStore:setSpot ${JSON.stringify(spot)}`)
+    
+    // add dirty attribute if it doesn't exist
+    if (spot) {
+        if (!("dirty" in spot)) {
+            spot.dirty = false
+        }
+    }
+    
+    this.spot = spot;
+    this.notifyAll();
+}
+
+SpotStore.prototype.setDirty = function() {
+    
+    if (this.spot) {
+        this.spot.dirty = true
+        this.notifyAll();
+    }
+}
+
+SpotStore.prototype.unsetDirty = function() {
+    
+    if (this.spot) {
+        this.spot.dirty = false 
+        this.notifyAll();
     }
 }
 

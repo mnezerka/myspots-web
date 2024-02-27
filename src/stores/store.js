@@ -1,5 +1,4 @@
 function Store() {
-    console.log(`${this.constructor.name}-Store:constructor:enter+leave`)
     this.observers = []; 
 }
 

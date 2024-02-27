@@ -24,8 +24,6 @@ Identity.prototype.logout = function() {
 
 Identity.prototype.fetchProfile = async function() {
 
-    console.log("Identity:fetchProfile:enter");
-
     if (!this.token) {
         this.notifyAll();
         return;
@@ -62,8 +60,6 @@ Identity.prototype.fetchProfile = async function() {
 }
 
 Identity.prototype.login = async function(email, password) {
-
-    console.log("Identity:login:enter", email, password);
 
     try {
         const response = await fetch("/api/login", {

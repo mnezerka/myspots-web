@@ -4,6 +4,7 @@ html, body {
     position: relative;
     margin: 0;
     font-family: arial;
+    font-size: 10pt;
 }
 
 body {
@@ -12,17 +13,34 @@ body {
     align-items: stretch;
 }
 
-.button {
-    /*height: 24px;
-    line-height: 24px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;*/
-    /*border: 1px solid #ccc;*/
-    /*background-color: #eee; */
-    cursor: pointer;
+form {
+    /*display: flex;*/
+    margin-bottom: 2rem;
+}
+  
+[type="text"], [type="password"], textarea, button {
     display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+  
+button {
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    border: 2px solid #007bff;
+    /*margin: 0 .5rem;*/
+}
+  
+[type="text"], [type="password"], textarea {
+    width: 100%;
+}
+  
+[type="text"]:active, [type="text"]:focus,
+[type="password"]:active, [type="password"]:focus {
+    outline: 0;
+    border: 2px solid #007bff;
 }
 
 #content {
@@ -42,6 +60,14 @@ body {
 .sidebar-widget {
     padding: 5px;
 /*    color: #eee; */
+}
+
+.sidebar-widget .title {
+    font-weight: bold;
+}
+
+.sidebar-widget .info-line {
+    margin-bottom: 10px;
 }
 
 #map-content {
@@ -72,12 +98,14 @@ h2 {
     padding-right: 5px;
 }
 
+/*
 #sidebar form input,
 #sidebar form label,
 #sidebar form  textarea {
     display: block;
     margin-bottom: 5px;
 }
+*/
 
 /****************************************** modal window ********** */
 /* The Modal (background) */
@@ -141,7 +169,7 @@ h2 {
     display: none; /* Hidden by default */
 }
 
-#spot-info .title {
+#spot-info .name {
     margin-top: 10px;
     font-weight: bold;
 }

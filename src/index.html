@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
-    <link rel="stylesheet" href="spots.css"/>
+    <link rel="stylesheet" href="global.css"/>
     <script type="module" src="./app.js"></script>
 </head>
 
@@ -32,12 +32,12 @@
             <form>
                 <div class="input-group">
                     <label for="email" class="label">Email</label>
-                    <input type="text" id="email" class="input email" value="mn@example.com">
+                    <input type="text" id="email" class="input email">
                 </div>
                 <br>
                 <div class="input-group">
                     <label for="password" class="label">Password</label>
-                    <input type="password" id="password" class="input password" value="mn">
+                    <input type="password" id="password" class="input password">
                 </div>
                 <br>
                 <button class="button submit" type="submit">Login</button>
@@ -50,20 +50,35 @@
             <span id="button-cancel" class="button">Cancel</span>
         </div>
         -->
-
+        <div id="spot-position" class="sidebar-widget">
+            <div class="info-line title">Position</div>
+            <div id="pos" class="info-line pos"></div>
+            <button class="button add">Add Spot</button>
+        </div>
+ 
         <div id="spot-info" class="sidebar-widget">
+            <div class="info-line title name"></div>
+            <div class="info-line description"></div>
+            <div class="info-line">GPS: <span class="pos"></span></div>
+
+            <button class="button edit">Edit</button>
         </div>
 
         <div id="spot-form" class="sidebar-widget">
-            <span class="close">&times;</span>
+            <div class="title"></div>
             <form>
                 <div class="input-group">
                     <label for="name" class="label">Name</label>
                     <input type="text" id="name" class="input name" value="">
                     <label for="description">Description</label>
                     <textarea id="description" class="input description"></textarea>
+                    <label for="pos">GPS</label>
+                    <div id="pos" class="pos"></div>
                 </div>
-                <button class="submit" type="submit">Save</button>
+                <div>
+                    <button class="submit" type="submit">Save</button>
+                    <button class="cancel">Cancel</button>
+                </div>
             </form>
         </div>
 

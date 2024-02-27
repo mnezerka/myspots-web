@@ -1,10 +1,6 @@
-import identity from "./stores/identity"
+import identity from "../stores/identity"
 
 function UserLogin(args) {
-    console.log("UserLogin:constructor:enter")
-    
-    this.identity = args.identity;
-     
     this.el = document.getElementById("user-login");
     this.el.style.display = "none";
     
@@ -13,11 +9,9 @@ function UserLogin(args) {
 
     this.elSubmit = this.el.getElementsByClassName("submit")[0];
     this.elSubmit.addEventListener("click", this.onSubmit.bind(this));
-
-    console.log("UserLogin:constructor:leave")
 }
 
-UserLogin.prototype.show = function(identity) {
+UserLogin.prototype.show = function() {
     this.el.style.display = "block";
 }
 
@@ -44,7 +38,6 @@ UserLogin.prototype.onSubmit = function(e) {
     }
 
     identity.login(email, password);
-    //this.loginModal.hide();
 }
 
 export default UserLogin;

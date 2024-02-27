@@ -1,8 +1,8 @@
-import identity from "./stores/identity"
+import identity from "../stores/identity"
 
 function UserInfo(args) {
-    this.onLogin = args.onLogin || empty_function;
-    this.onLogout = args.onLogout || empty_function;
+    this.onLogin = args.onLogin || function() {};
+    this.onLogout = args.onLogout || function() {};
  
     this.el = document.getElementById("user-info");
     this.el.style.display = "none";
