@@ -93,7 +93,7 @@ Spots.prototype.create = async function(spot) {
     try {
         const response = await fetch("/api/spots", {
             method: 'POST',
-            body: `{"name": "${spot.name}", "description": "${spot.description}", "pos": [${spot.pos[0]}, ${spot.pos[1]}]}`,
+            body: JSON.stringify(spot),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `JWT ${identity.token}`
@@ -103,6 +103,7 @@ Spots.prototype.create = async function(spot) {
         
         if (response.ok) {
             const data = await response.json();
+            spot.dirty = false
         } else {
             console.warn('Unexpected response code: ', response.status);
         }
@@ -120,7 +121,7 @@ Spots.prototype.update = async function(spot) {
     try {
         const response = await fetch("/api/spots", {
             method: 'PUT',
-            body: `{"name": "${spot.name}", "description": "${spot.description}", "pos": [${spot.pos[0]}, ${spot.pos[1]}]}`,
+            body: JSON.stringify(spot),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `JWT ${identity.token}`
@@ -130,6 +131,7 @@ Spots.prototype.update = async function(spot) {
         
         if (response.ok) {
             const data = await response.json();
+            spot.dirty = false
         } else {
             console.warn('Unexpected response code: ', response.status);
         }
