@@ -51,31 +51,35 @@
         </div>
         -->
         <div id="spot-position" class="sidebar-widget">
-            <div class="info-line title">Position</div>
-            <div id="pos" class="info-line pos"></div>
+            <div class="row title">Position</div>
+            <div id="pos" class="row pos"></div>
             <button class="button add">Add Spot</button>
         </div>
  
         <div id="spot-info" class="sidebar-widget">
-            <div class="info-line title name"></div>
-            <div class="info-line description"></div>
-            <div class="info-line">GPS: <span class="pos"></span></div>
+            <div class="row title name"></div>
+            <div class="row description"></div>
+            <div class="row">GPS: <span class="pos"></span></div>
 
             <button class="button edit">Edit</button>
         </div>
 
         <div id="spot-form" class="sidebar-widget">
-            <div class="title"></div>
+            <div class="row title"></div>
             <form>
-                <div class="input-group">
+                <div class="row">
                     <label for="name" class="label">Name</label>
                     <input type="text" id="name" class="input name" value="">
+                </div>
+                <div class="row">
                     <label for="description">Description</label>
                     <textarea id="description" class="input description"></textarea>
+                </div>
+                <div class="row">
                     <label for="pos">GPS</label>
                     <div id="pos" class="pos"></div>
                 </div>
-                <div>
+                <div class="row">
                     <button class="submit" type="submit">Save</button>
                     <button class="cancel">Cancel</button>
                 </div>

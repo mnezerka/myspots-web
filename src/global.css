@@ -23,6 +23,7 @@ form {
     border: 2px solid #ccc;
     border-radius: 4px;
     margin-bottom: 10px;
+    box-sizing: border-box;
 }
   
 button {
@@ -66,7 +67,7 @@ button {
     font-weight: bold;
 }
 
-.sidebar-widget .info-line {
+.sidebar-widget .row {
     margin-bottom: 10px;
 }
 
@@ -167,15 +168,6 @@ h2 {
 
 #spot-info {
     display: none; /* Hidden by default */
-}
-
-#spot-info .name {
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-#spot-info .description {
-    margin-top: 10px;
 }
 
 /****************************************** map icons */
