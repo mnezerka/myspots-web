@@ -17,6 +17,10 @@ SpotStore.prototype.isNew = function() {
     return this.spot && !this.spot.id
 }
 
+SpotStore.prototype.hasId = function() {
+    return this.spot && this.spot.id
+}
+
 SpotStore.prototype.isDirty = function() {
     return this.spot && this.spot.dirty
 }

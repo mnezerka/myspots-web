@@ -177,7 +177,11 @@ h2 {
     /* Horizontally center the text (icon) */
     line-height: 16px;
     /* Vertically center the text (icon) */
-  }
+}
+
+.myDivIcon.active {
+    color: red;
+}
 
 /****************************************** map context menu */
 

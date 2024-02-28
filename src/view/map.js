@@ -1,5 +1,6 @@
 import position from "../stores/position"
 import spots from "../stores/spots"
+import spot from "../stores/spot"
 import app from "../app"
 
 //////////////////////////////////////////////// MapContextMenu
@@ -34,22 +35,23 @@ MapContextMenu.prototype.setPosFromEvent = function(e) {
 
 function Map(args) {
     position.registerObserver(this.onUpdatePosition.bind(this));
-
     spots.registerObserver(this.onUpdateSpots.bind(this));
+    spot.registerObserver(this.onUpdateSpot.bind(this));
 
     this.map = L.map('map').setView([51.505, -0.09], 13);
 
     //this.contextMenu = new MapContextMenu()
-    
-    // active position on map
-    this.spotMarker = null;
 
     this.markers = {};
-    
+
+    // active position on map
+    this.activeMarker = null;
+
     this.groupBasic = L.featureGroup([]).addTo(this.map);
     
     this.icons = {
-        parking: L.divIcon({ html: '<i class="fa-solid fa-square-parking fa-2x"></i>', iconSize: [16, 16], className: 'myDivIcon' })
+        parking: L.divIcon({ html: '<i class="fa-solid fa-square-parking fa-2x"></i>', iconSize: [16, 16], className: 'myDivIcon' }),
+        parkingActive: L.divIcon({ html: '<i class="fa-solid fa-square-parking fa-2x"></i>', iconSize: [16, 16], className: 'myDivIcon active' })
     }
 
     this.tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -245,6 +247,31 @@ Map.prototype.onUpdateSpots = function() {
         }
 
         this.fit();
+    }
+}
+
+Map.prototype.onUpdateSpot = function() {
+    if (spot.hasId()) {
+        let s = spot.getSpot()
+        for (let id in this.markers) {
+            if (id == s.id) {
+                this._setActiveMarker(this.markers[id])
+            }
+        }
+    } else {
+        this._setActiveMarker(null)
+    }
+}
+
+Map.prototype._setActiveMarker = function(m) {
+    // remove previous active marker
+    if (this.activeMarker) {
+        this.activeMarker.setIcon(this.icons.parking)
+    }
+    // set new active marker or do nothing (no active marker)
+    if (m) {
+        m.setIcon(this.icons.parkingActive)
+        this.activeMarker = m 
     }
 }
 
