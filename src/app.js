@@ -93,18 +93,22 @@ App.prototype.cancelSpot = function() {
         spot.unsetDirty()
     }
 }
-App.prototype.saveSpot = function(s) {
+App.prototype.saveSpot = async function(s) {
+    let saved = null;
+
     if (spot.isNew()) {
-        spots.create(s)
+        saved = await spots.create(s)
     } else {
-        spots.update(s)
+        saved = await spots.update(s)
     }
     
-    spot.setSpot(null);
-    position.setPos(null);
+    console.log(saved)
 
     // refetch spots
     spots.fetch();
+
+    // keep saved spot active 
+    spot.setSpot(saved);
 }
 
 export default new App();

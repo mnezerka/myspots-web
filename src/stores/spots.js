@@ -60,7 +60,7 @@ Spots.prototype.fetch = async function() {
                     return false;
                 }
                 if (!("pos" in item)) {
-                    console.warn("Missing spot.posproperty", item)
+                    console.warn("Missing spot.pos property", item)
                     return false;
                 }
                 if (!(Array.isArray(item.pos))) {
@@ -84,11 +84,26 @@ Spots.prototype.fetch = async function() {
     }
 }
 
+Spots.prototype._cleanSpot = function(spot) {
+    //return ({id, name, description} = spot, {id, name, pos, description})
+    
+    return {
+        id: spot.id,
+        name: spot.name,
+        description: spot.description,
+        pos: spot.pos 
+    }
+}
+
 Spots.prototype.create = async function(spot) {
+
+    let result = null;
 
     if (!identity.isLogged) {
         return;
     }
+    
+    spot = this._cleanSpot(spot)
 
     try {
         const response = await fetch("/api/spots", {
@@ -102,21 +117,26 @@ Spots.prototype.create = async function(spot) {
         });
         
         if (response.ok) {
-            const data = await response.json();
-            spot.dirty = false
+            result = await response.json();
         } else {
             console.warn('Unexpected response code: ', response.status);
         }
     } catch (err) {
         console.warn('Something went wrong.', err);
     }
+    
+    return result
 }
 
 Spots.prototype.update = async function(spot) {
 
+    let result = null;
+
     if (!identity.isLogged) {
-        return;
+        return result;
     }
+
+    spot = this._cleanSpot(spot)
 
     try {
         const response = await fetch("/api/spots", {
@@ -130,14 +150,15 @@ Spots.prototype.update = async function(spot) {
         });
         
         if (response.ok) {
-            const data = await response.json();
-            spot.dirty = false
+            result = await response.json();
         } else {
             console.warn('Unexpected response code: ', response.status);
         }
     } catch (err) {
         console.warn('Something went wrong.', err);
     }
+    
+    return result
 }
 
 

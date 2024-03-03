@@ -53,6 +53,8 @@ Toolbar.prototype.onUpdateIdentity = function(identity) {
 
 Toolbar.prototype.onUpdateSpotOrPosition = function() {
     
+    console.log(`Toolbar:onUpdateSpotOrPosition: ${JSON.stringify(spot.getSpot())}`);
+
     // first check if some spot is active
     if (spot.getSpot()) {
         if (spot.isDirty()) {

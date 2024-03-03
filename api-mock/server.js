@@ -76,7 +76,7 @@ async function spotsPost(req, res) {
     console.log("new spot is:", spot) 
     spots.push(spot);
     res.writeHead(200, standardHeaders);
-    res.end(JSON.stringify({}));
+    res.end(JSON.stringify(spot));
 }
 
 async function spotsPut(req, res) {
@@ -95,7 +95,7 @@ async function spotsPut(req, res) {
     
     if (found) {
         res.writeHead(200, standardHeaders);
-        res.end(JSON.stringify({}));
+        res.end(JSON.stringify(spot));
     } else {
         res.writeHead(404, standardHeaders);
     }

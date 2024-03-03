@@ -26,7 +26,7 @@ SpotStore.prototype.isDirty = function() {
 }
 
 SpotStore.prototype.setSpot = function(spot) {
-    //console.log(`SpotStore:setSpot ${JSON.stringify(spot)}`)
+    console.log(`SpotStore:setSpot ${JSON.stringify(spot)}`)
     
     // add dirty attribute if it doesn't exist
     if (spot) {
