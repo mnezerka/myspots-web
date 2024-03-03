@@ -32,8 +32,9 @@ SpotForm.prototype.onClickSubmit = function(e) {
 
     s.name = name;
     s.description = description;
-    
-    app.saveSpot(s)
+
+    spot.setSpot(s);
+    app.saveSpot()
 }
 
 SpotForm.prototype.onClickCancel = function(e) {

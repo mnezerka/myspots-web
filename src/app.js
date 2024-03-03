@@ -80,35 +80,40 @@ App.prototype.addSpot = function() {
     let s = spots.newSpot()
     s.pos = position.getPos()
     spot.setSpot(s)
+    spot.edit()
 }
 
 App.prototype.editSpot = function() {
-    spot.setDirty()
+    spot.edit()
 }
 
 App.prototype.cancelSpot = function() {
     if (spot.isNew()) {
         spot.setSpot(null)
     } else {
-        spot.unsetDirty()
+        spot.cancel()
     }
 }
-App.prototype.saveSpot = async function(s) {
+App.prototype.saveSpot = async function() {
     let saved = null;
+    
 
     if (spot.isNew()) {
-        saved = await spots.create(s)
+        saved = await spots.create(spot.getSpot())
     } else {
-        saved = await spots.update(s)
+        saved = await spots.update(spot.getSpot())
     }
-    
-    console.log(saved)
+
+    // remove all backups
+    spot.commit();
+
+    console.log("saved spot:", saved)
+
+    // keep saved spot active 
+    this.setActiveSpot(saved);
 
     // refetch spots
     spots.fetch();
-
-    // keep saved spot active 
-    spot.setSpot(saved);
 }
 
 export default new App();

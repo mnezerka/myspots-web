@@ -31,8 +31,7 @@ Spots.prototype.newSpot = function(spot) {
         id: '', 
         name: '',
         description: '',
-        pos: [0, 0],
-        dirty: true
+        pos: [0, 0]
     }
 }
 

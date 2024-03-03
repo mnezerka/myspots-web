@@ -227,6 +227,7 @@ Map.prototype.onUpdatePosition = function() {
 
 Map.prototype.onUpdateSpots = function() {
     if (spots.getSpots()) {
+        let activeSpot = spot.getSpot()
         for (let i = 0; i < spots.getSpots().length; i++) {
             const s = spots.getSpots()[i];
             if (s.id in this.markers) {
@@ -244,6 +245,11 @@ Map.prototype.onUpdateSpots = function() {
 
             m.spot = s;
             this.markers[s.id] = m;
+            
+            // new spot could be active spot (e.g. once new spot was created)
+            if (activeSpot && activeSpot.id == s.id) {
+                this._setActiveMarker(m);
+            } 
         }
 
         this.fit();

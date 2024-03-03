@@ -4,6 +4,7 @@ function SpotStore(args) {
     // call parent constructor
     Store.call(this)
     this.spot = null;
+    this.backup = null;
 }
 
 // SpotStore is child of Store
@@ -22,37 +23,31 @@ SpotStore.prototype.hasId = function() {
 }
 
 SpotStore.prototype.isDirty = function() {
-    return this.spot && this.spot.dirty
+    return this.spot && this.backup
 }
 
 SpotStore.prototype.setSpot = function(spot) {
     console.log(`SpotStore:setSpot ${JSON.stringify(spot)}`)
-    
-    // add dirty attribute if it doesn't exist
-    if (spot) {
-        if (!("dirty" in spot)) {
-            spot.dirty = false
-        }
-    }
-    
     this.spot = spot;
     this.notifyAll();
 }
 
-SpotStore.prototype.setDirty = function() {
-    
-    if (this.spot) {
-        this.spot.dirty = true
+SpotStore.prototype.edit = function() {
+    this.backup = this.spot;
+    this.notifyAll();
+}
+
+SpotStore.prototype.cancel = function() {
+    if (this.backup) {
+        this.spot = this.backup;
+        this.backup = null;
         this.notifyAll();
     }
 }
 
-SpotStore.prototype.unsetDirty = function() {
-    
-    if (this.spot) {
-        this.spot.dirty = false 
-        this.notifyAll();
-    }
+SpotStore.prototype.commit = function() {
+    this.backup = null;
+    this.notifyAll();
 }
 
 export default new SpotStore();
